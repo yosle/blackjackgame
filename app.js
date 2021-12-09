@@ -48,7 +48,8 @@ function hit() {
     document.querySelector('#dealbutton').disabled = true;
     setTimeout(refresh, 6000);
   } if (plySum === 21) {
-    console.log("blackjack");
+    console.log("Has sacado blackjack");
+    console.log('El jugador se ha plantado');
     setTimeout(stand, 2000);
 
   }
@@ -77,32 +78,75 @@ function deal(amount) {
   } else {
     plySum += valuesBJ['values'][x[0]];
   }
+
   document.querySelector('#plyHandResult').innerHTML = plySum;
   document.querySelector('#dealbutton').disabled = true;
   document.querySelector('#hitbutton').disabled = false;
   document.querySelector('#standbutton').disabled = false;
+
 }
 document.querySelector('#standBtn button').addEventListener('click', stand);
 
-function stand() {
+async function stand() {
+
   document.querySelector('#dealbutton').disabled = true;
   document.querySelector('#hitbutton').disabled = true;
   document.querySelector('#standbutton').disabled = true;
-  console.log('El jugador se ha plantado,saca carta');
 
 
 
   if (plySum <= 21) {
 
     otracarta = true;
-    while (dealSum < 17 && dealSum <= plySum && otracarta) {
 
-      console.log('dealSum is' + dealSum)
 
-      //setTimeout(standMove, 2000)
-      standMove();
 
+    while (await new Promise(resolve => setTimeout(() => {
+
+
+      if (dealSum < 17 && dealSum < plySum) {
+        console.log('Crupier saca carta');
+        standMove()
+        resolve(true);
+
+
+      }
+      if (dealSum > 21 || dealSum > plySum) {
+        resolve(false)
+      } if (dealSum === plySum && dealSum < 21) {
+        resolve(true)
+      } if (dealSum === plySum && dealSum === 21) {
+        resolve(false)
+      } else {
+
+        resolve(false);
+
+      }
+
+
+    }, 1500)) === true) {
+
+
+      console.log("Pensando...");
     }
+
+
+    /* while (dealSum < 17 && dealSum <= plySum && otracarta) {
+ 
+       console.log('dealSum is' + dealSum)
+ 
+       //setTimeout(standMove, 2000)
+       standMove();
+ 
+     }*/
+
+    checkRoundResult();
+
+
+  }
+
+  function checkRoundResult() {
+
     if (dealSum > 21) {
       otracarta = false;
       let dealBust = document.createElement('h1');
@@ -110,7 +154,7 @@ function stand() {
       dealBust.id = 'dealbust';
       winsound.play();//PLAY 
       document.querySelector('#bust').appendChild(dealBust);
-      setTimeout(refresh, 4000);
+      setTimeout(refresh, 3000);
     } else if (dealSum > plySum) {
       otracarta = false;
       let dealWin = document.createElement('h1');
@@ -119,7 +163,7 @@ function stand() {
       dealWin.id = 'dealwin';
 
       document.querySelector('#bust').appendChild(dealWin);
-      setTimeout(refresh, 4000);
+      setTimeout(refresh, 3000);
     } else if (dealSum < plySum) {
       otracarta = false;
       let plyWin = document.createElement('h1');
@@ -128,7 +172,7 @@ function stand() {
       winsound.play();//PLAY
       plyWin.id = 'plywin';
       document.querySelector('#bust').appendChild(plyWin);
-      setTimeout(refresh, 5000);
+      setTimeout(refresh, 3000);
     } else if (dealSum === plySum) {
       otracarta = false;
       let draw = document.createElement('h1');
@@ -136,17 +180,13 @@ function stand() {
       draw.innerHTML = 'ES UN EMPATE';
       draw.id = 'drawID';
       document.querySelector('#bust').appendChild(draw);
-      setTimeout(refresh, 4000);
+      setTimeout(refresh, 3000);
     }
     console.log('dealSum is after' + dealSum);
 
   }
 
-
-
 }
-
-
 
 function standMove() {
   console.log('El crupier pide una carta');
@@ -300,8 +340,6 @@ function validateDeal() {
 
 
   }
-
-
 
 
 
