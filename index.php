@@ -24,9 +24,7 @@
 
 <body onload="playambience()">
 
-
-
-  <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center w-100">
+ <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center w-100">
 
     <!-- Then put toasts within -->
     <div id="myToastEl" class="toast align-items-center text-white bg-primary border-0" role="alert"
@@ -54,7 +52,7 @@
 
           <div class="input-group mb-3">
             <span class="input-group-text">$</span>
-            <input type="number" required id="montoInput" aria-valuemin="5" class="form-control"
+            <input type="number" required id="montoInput" min="1" aria-valuemin="5" class="form-control"
               placeholder="ejemplo: 10" aria-label="Monto ( Equivalente en CUP)">
             <span class="input-group-text">.00</span>
           </div>
@@ -116,6 +114,7 @@
     <h1>ESTE JUEGO DEBE SER JUGADO EN MODO <span style="color:red">LANDSCAPE </span>USE LA OPCIÓN ROTAR PATALLA</h1>
   </div>
   <script src="app.js" defer></script>
+  <script src="game.js" defer></script>
 </body>
 
 </html>

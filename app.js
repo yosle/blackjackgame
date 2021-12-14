@@ -102,20 +102,18 @@ async function stand() {
 
 
     while (await new Promise(resolve => setTimeout(() => {
+      console.log("Pensando...");
 
+      if (dealSum < 17 && dealSum <= plySum) {
 
-      if (dealSum < 17 && dealSum < plySum) {
-        console.log('Crupier saca carta');
-        standMove()
         resolve(true);
 
 
       }
       if (dealSum > 21 || dealSum > plySum) {
         resolve(false)
-      } if (dealSum === plySum && dealSum < 21) {
-        resolve(true)
-      } if (dealSum === plySum && dealSum === 21) {
+      }
+      if (dealSum === 21 && dealSum === 21) {
         resolve(false)
       } else {
 
@@ -125,9 +123,10 @@ async function stand() {
 
 
     }, 1500)) === true) {
+      console.log('Crupier saca carta');
+      standMove()
 
 
-      console.log("Pensando...");
     }
 
 
@@ -174,7 +173,7 @@ async function stand() {
       document.querySelector('#bust').appendChild(plyWin);
       setTimeout(refresh, 3000);
     } else if (dealSum === plySum) {
-      otracarta = false;
+
       let draw = document.createElement('h1');
 
       draw.innerHTML = 'ES UN EMPATE';
@@ -194,6 +193,7 @@ function standMove() {
 
 
   x = ranCardGen();
+  console.log('Geerated card value is ' + x);
   let dealDiv = document.querySelector('#dealerCards');
   let dealCardImg = document.createElement('img');
 
@@ -226,6 +226,8 @@ function standMove() {
 
 
 function refresh() {
+
+  console.log('saldo es ' + debitChips)
   if (dealSum > 21) {
     document.querySelector('#dealbust').remove();
     removeImg();
@@ -252,7 +254,8 @@ function refresh() {
   } else if (dealSum === plySum) {
     document.querySelector('#drawID').remove();
     removeImg();
-    doubleChips = bet + debitChips;
+    debitChips = bet + debitChips;
+    console.log(`debit chips ${debitChips} , bet ${bet} `)
     document.querySelector('#chipCountResult').innerHTML = "$" + doubleChips;
     debitChips = doubleChips;
     document.querySelector('#dealbutton').disabled = false;
@@ -266,6 +269,7 @@ function refresh() {
   dealSum = 0;
   document.querySelector('#plyHandResult').innerHTML = plySum;
   document.querySelector('#dealHandResult').innerHTML = dealSum;
+  console.log('saldo es ' + debitChips)
 }
 
 function removeImg() {
