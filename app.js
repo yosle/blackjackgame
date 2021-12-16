@@ -316,18 +316,27 @@ function validateDeal() {
 
   if (bet <= 0 || bet >= (debitChips + 1)) {
 
-
+    var myToastBody = document.getElementById('toast-body')
     var myToastEl = document.getElementById('myToastEl')
+    if (bet < 1) {
+
+      myToastBody.innerText = 'El monto no puede ser menor que 1'
+    }
+
+    if (bet > debitChips) {
+
+      myToastBody.innerText = 'No puedes jugar mas que el saldo que tienes'
+
+    }
+
     let a = new bootstrap.Toast(myToastEl);
+
+
+
+
     a.show();
 
-    var myToastBody = document.getElementById('toast-body')
-    //myToastBody.innerText = "wefwefwefwef";
 
-    //var myToast = bootstrap.Toast.getOrCreateInstance(myToastEl);
-    // myToast.show();
-
-    //montoInput.className = 'form-control is-invalid';
 
     console.log('Moto ivalido');
 

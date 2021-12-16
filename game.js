@@ -1,4 +1,10 @@
-document.querySelector('#montoInput').addEventListener('change', checkmount);
+
+var montoInput = document.querySelector('#montoInput');
+
+montoInput.addEventListener('change', checkmount);
+
+
+
 
 function checkmount() {
 
@@ -8,7 +14,8 @@ function checkmount() {
 
             response.json()
                 .then(data => {
-                    console.log(data.result)
+                    // console.log(data)
+                    console.log(data)
 
                 })
 
@@ -17,9 +24,12 @@ function checkmount() {
 
 
     let saldo = document.querySelector('#montoInput');
-    if (saldo.value < 0) {
+    if (saldo.value <= 0 || saldo.value > debitChips) {
+        montoInput.className = "form-control is-invalid"
 
-        alert('error')
+    } else {
+        montoInput.className = "form-control is-valid"
+
     }
 
 

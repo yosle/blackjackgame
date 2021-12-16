@@ -1,3 +1,7 @@
+
+
+
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -22,7 +26,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body onload="playambience()">
+<body >
+
+
 
  <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center w-100">
 
@@ -39,6 +45,40 @@
     </div>
   </div>
 
+<?php
+if (isset($_GET['ssid'])) {
+
+  echo `<div class="modal modal-signin d-block bg-secondary py-5" tabindex="-1" role="dialog" id="modalSignin">
+<div class="modal-dialog" role="document">
+  <div class="modal-content rounded-5 shadow">
+    <div class="modal-header p-5 pb-4 border-bottom-0">
+      <!-- <h5 class="modal-title">Modal title</h5> -->
+      <h2 class="fw-bold mb-0">Registrarse</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body p-5 pt-0">
+      <form class="">
+        <div class="form-floating mb-3">
+
+        </div>
+        <div class="form-floating mb-3">
+
+        </div>
+        <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Sign up</button>
+        <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
+        <hr class="my-4">
+        <h2 class="fs-5 fw-bold mb-3">Or use a third-party</h2>
+
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+`;
+
+}?>
+
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="modal-title"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -52,11 +92,20 @@
 
           <div class="input-group mb-3">
             <span class="input-group-text">$</span>
-            <input type="number" required id="montoInput" min="1" aria-valuemin="5" class="form-control"
+            <input type="number"  required id="montoInput"   class="form-control form-control-sm"
+
               placeholder="ejemplo: 10" aria-label="Monto ( Equivalente en CUP)">
+             
             <span class="input-group-text">.00</span>
+            <div class="invalid-feedback">
+              Ingrese un número válido
+            </div>
+            <div class="valid-feedback">
+              Todo Correcto!
+            </div>
           </div>
-          <label for="betamount">Monto en CUP</label>
+          
+          <label for="betamount">Monto </label>
         </div>
         <div class="modal-footer">
           <small>Al dar Click estás aceptando los <a href="#" class="link-primary">Términos y Condiciones</small>
@@ -111,6 +160,7 @@
     </div>
   </div>
   <div id='mediaMsg'>
+    <IMG src="cards/images/screen.png" alt="Gire la pantalla" height="80px" class=" justify-content-sm-center" > </IMG>
     <h1>ESTE JUEGO DEBE SER JUGADO EN MODO <span style="color:red">LANDSCAPE </span>USE LA OPCIÓN ROTAR PATALLA</h1>
   </div>
   <script src="app.js" defer></script>

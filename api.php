@@ -3,12 +3,13 @@
 class Blackjack {
 
    public $daa ;
+   public $saldo; 
 
 function    __construct()
 
 {
 
-  $this->$daa =  random_int(1,52);
+  
    
 }
 
@@ -18,8 +19,10 @@ function    __construct()
 
 if (isset( $_REQUEST['key']) ){
     $yo = new Blackjack();
-
-echo '{"result" : "${yo.daa}"}';
+    
+  
+   
+echo '{"result" : "yy", "saldo" : "200"}';
 
 }
 
