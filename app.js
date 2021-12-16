@@ -254,9 +254,9 @@ function refresh() {
   } else if (dealSum === plySum) {
     document.querySelector('#drawID').remove();
     removeImg();
-    debitChips = bet + debitChips;
+    debitChips = Number(bet) + Number(debitChips);
     console.log(`debit chips ${debitChips} , bet ${bet} `)
-    document.querySelector('#chipCountResult').innerHTML = "$" + doubleChips;
+    document.querySelector('#chipCountResult').innerHTML = "$" + debitChips;
     debitChips = doubleChips;
     document.querySelector('#dealbutton').disabled = false;
   }
