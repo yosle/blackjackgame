@@ -22,8 +22,14 @@
   <script src="boostrap/popper.min.js"></script>
   <script src="boostrap/bootstrap.bundle.min.js"></script>
   <script src="boostrap/jquery-3.6.0.min.js"></script>
+  <script src="preloadjs.min.js"></script>
+  <script type="module" src="progressbar.js"></script>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+
+
+</script>
+  <meta  name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body >
@@ -46,7 +52,7 @@
   </div>
 
 <?php
-if (isset($_GET['ssid'])) {
+//if (isset($_GET['ssid'])) {
 
   echo `<div class="modal modal-signin d-block bg-secondary py-5" tabindex="-1" role="dialog" id="modalSignin">
 <div class="modal-dialog" role="document">
@@ -77,7 +83,8 @@ if (isset($_GET['ssid'])) {
 </div>
 `;
 
-}?>
+//}
+?>
 
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="modal-title"
     aria-hidden="true">
@@ -95,7 +102,7 @@ if (isset($_GET['ssid'])) {
             <input type="number"  required id="montoInput"   class="form-control form-control-sm"
 
               placeholder="ejemplo: 10" aria-label="Monto ( Equivalente en CUP)">
-             
+
             <span class="input-group-text">.00</span>
             <div class="invalid-feedback">
               Ingrese un número válido
@@ -104,7 +111,7 @@ if (isset($_GET['ssid'])) {
               Todo Correcto!
             </div>
           </div>
-          
+
           <label for="betamount">Monto </label>
         </div>
         <div class="modal-footer">
@@ -122,7 +129,9 @@ if (isset($_GET['ssid'])) {
 
 
     <div id="dealHand">
-      <h2>LA CASA: <span id="dealHandResult">0</span></h2>
+      <h2>LA CASA: <span id="dealHandResult">0</span></h2><br/>     
+         
+          
     </div>
     <div id="plyHand">
       <h2>JUGADOR : <span id="plyHandResult">0</span></h2>
@@ -154,10 +163,6 @@ if (isset($_GET['ssid'])) {
     <div id="plyCards" class="Cards"></div>
     <div id="bust"></div>
 
-    <div id="dev">
-      <h1 class="devName">Made by: <a href="https://t.me/YosleDev" target="_blank" style="color:red">@YosleDev</a>
-      </h1>
-    </div>
   </div>
   <div id='mediaMsg'>
     <IMG src="cards/images/screen.png" alt="Gire la pantalla" height="80px" class=" justify-content-sm-center" > </IMG>
