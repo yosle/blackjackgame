@@ -3,7 +3,7 @@
 // Assuming we have an empty <div id="container"></div> in
 // HTML
 
-var bar = new ProgressBar.SemiCircle(dealHand, {
+var bar = new ProgressBar.Circle(bust, {
   strokeWidth: 6,
 
   color: "#FFEA82",
@@ -21,7 +21,7 @@ var bar = new ProgressBar.SemiCircle(dealHand, {
   text: {
     value: "Cargando...",
 
-    alignToBottom: true,
+    alignToBottom: false,
   },
 
   from: { color: "#ED6A5A" },
@@ -38,12 +38,10 @@ var bar = new ProgressBar.SemiCircle(dealHand, {
     if (value === 0) {
       bar.setText("Cargando...");
     } else if (value <= 90) {
-      bar.setText(`Cargando ${value}%`);
+      bar.setText(`${value}%`);
     } else if (value > 90 && value < 100) {
-      bar.setText(`Ya casi... ${value}%`);
+      bar.setText(`${value}%`);
     } else if (value === 100) {
-      document.querySelector("#dealHand").style = "display : none;";
-
       //console.log(document.querySelector("#bust"));
     }
 
@@ -55,21 +53,22 @@ bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
 
 bar.text.style.fontSize = "3em";
 bar.text.style.textAlign = "center";
-bar.text.style.bottom = "50%";
+bar.text.style.bottom = "50px";
 
 // Number from 0.0 to 1.0
 
 var queue = new createjs.LoadQueue(false);
 var preloadedCards = new Array();
+var dealerPreloaderCards = new Array();
 
 async function PreloaderAll() {
-  await queue.loadFile("cards/2C.png");
-  await queue.loadFile("cards/2D.png");
-  await queue.loadFile("cards/2H.png");
-  await queue.loadFile("cards/2S.png");
+  queue.loadFile("cards/2C.png");
+  queue.loadFile("cards/2D.png");
+  queue.loadFile("cards/2H.png");
+  queue.loadFile("cards/2S.png");
 
-  await queue.loadFile("cards/3C.png");
-  await queue.loadFile("cards/3D.png");
+  queue.loadFile("cards/3C.png");
+  queue.loadFile("cards/3D.png");
   queue.loadFile("cards/3H.png");
   queue.loadFile("cards/3S.png");
   queue.loadFile("cards/4C.png");
@@ -134,6 +133,7 @@ async function PreloaderAll() {
     // console.log("Progreso general: " + queue.progress, event);
     // console.log("Ths is in app.js ", Object.values(queue._loadedResults));
     bar.destroy();
+    dealerPreloaderCards = [...preloadedCards];
   });
 }
 
@@ -162,28 +162,52 @@ const valuesBJ = {
   },
 };
 
-var debitChips = 500;
 var plySum = 0;
 var dealSum = 0;
 var bet = 0;
 var x, doubleChips;
-document.querySelector("#hitbutton").disabled = true;
-document.querySelector("#standbutton").disabled = true;
-
-document.querySelector("#hitBtn button").addEventListener("click", hit);
-let checkbox = document.querySelector("#flexSwitchCheckChecked");
-
+var debitChips;
 var otracarta;
+
+init();
+
+async function init() {
+  debitChips = await getData();
+  console.log(debitChips);
+
+  document.querySelector("#chipCountResult").innerHTML = debitChips;
+  document.querySelector("#hitbutton").disabled = true;
+  document.querySelector("#standbutton").disabled = true;
+
+  async function getData(token) {
+    try {
+      const response = await fetch("api.php?t=123");
+
+      if (!response.ok) {
+        const message = "Error with Status Code: " + response.status;
+        throw new Error(message);
+      }
+
+      const data = await response.json();
+      return parseInt(data.chips);
+    } catch (error) {
+      console.log("Error: " + error);
+    }
+  }
+  document.querySelector("#hitBtn button").addEventListener("click", hit);
+}
 
 function hit() {
   x = ranCardGen();
   let plyDiv = document.querySelector("#plyCards");
   let plyCardImg = document.createElement("img");
 
-  plyCardImg.src = "cards/" + x + ".png";
+  // plyCardImg.src = "cards/" + x + ".png";
   preloadedCurrentCard = preloadedCards.find(
     (card) => card.cardName === "cards/" + x + ".png"
   );
+
+  console.log("Generated card by player is" + x);
 
   //dealBtnCardImg.src = "cards/" + x + ".png";
   //dealBtnDiv.appendChild(preloadedCurrentCard.image);
@@ -208,12 +232,12 @@ function hit() {
     document.querySelector("#hitbutton").disabled = true;
     document.querySelector("#standbutton").disabled = true;
     document.querySelector("#dealbutton").disabled = true;
-    setTimeout(refresh, 6000);
+    setTimeout(refresh, 5000);
   }
   if (plySum === 21) {
     console.log("Has sacado blackjack");
     console.log("El jugador se ha plantado");
-    setTimeout(stand, 2000);
+    setTimeout(stand, 1000);
   }
 }
 
@@ -227,7 +251,7 @@ function deal(amount) {
   x = ranCardGen();
   let dealBtnDiv = document.querySelector("#plyCards");
   let dealBtnCardImg = document.createElement("img");
-
+  console.log("Generated card by player is " + x);
   preloadedCurrentCard = preloadedCards.find(
     (card) => card.cardName === "cards/" + x + ".png" && card.image
   );
@@ -275,7 +299,7 @@ async function stand() {
           } else {
             resolve(false);
           }
-        }, 1500)
+        }, 1000)
       )) === true
     ) {
       console.log("Crupier saca carta");
@@ -289,11 +313,11 @@ async function stand() {
     if (dealSum > 21) {
       otracarta = false;
       let dealBust = document.createElement("h1");
-      dealBust.innerHTML = "wOW HAS GANADO!!";
+      dealBust.innerHTML = "WOW, HAS GANADO!!";
       dealBust.id = "dealbust";
       winsound.play(); //PLAY
       document.querySelector("#bust").appendChild(dealBust);
-      setTimeout(refresh, 3000);
+      setTimeout(refresh, 2000);
     } else if (dealSum > plySum) {
       otracarta = false;
       let dealWin = document.createElement("h1");
@@ -302,7 +326,7 @@ async function stand() {
       dealWin.id = "dealwin";
 
       document.querySelector("#bust").appendChild(dealWin);
-      setTimeout(refresh, 3000);
+      setTimeout(refresh, 2000);
     } else if (dealSum < plySum) {
       otracarta = false;
       let plyWin = document.createElement("h1");
@@ -311,29 +335,32 @@ async function stand() {
       winsound.play(); //PLAY
       plyWin.id = "plywin";
       document.querySelector("#bust").appendChild(plyWin);
-      setTimeout(refresh, 3000);
+      setTimeout(refresh, 2000);
     } else if (dealSum === plySum) {
       let draw = document.createElement("h1");
 
       draw.innerHTML = "ASOMBROSO, ES UN EMPATE";
       draw.id = "drawID";
       document.querySelector("#bust").appendChild(draw);
-      setTimeout(refresh, 3000);
+      setTimeout(refresh, 2000);
     }
     console.log("dealSum is after" + dealSum);
   }
 }
 
 function standMove() {
-  console.log("El crupier pide una carta");
-
   x = ranCardGen();
-  console.log("Generated card value is " + x);
+  console.log("Generated card by dealer is " + x);
   let dealDiv = document.querySelector("#dealerCards");
-  let dealCardImg = document.createElement("img");
+  // let dealCardImg = document.createElement("img");
+  dealCurrentCard = dealerPreloaderCards.find(
+    (card) => card.cardName === "cards/" + x + ".png"
+  );
 
-  dealCardImg.src = "cards/" + x + ".png";
-  dealDiv.appendChild(dealCardImg);
+  const newImage = { ...dealCurrentCard };
+
+  //dealCardImg.src = "cards/" + x + ".png";
+  dealDiv.appendChild(newImage.image);
   if (x[0] === "A") {
     if (dealSum + 11 <= 21) {
       dealSum += 11;
@@ -349,11 +376,12 @@ function standMove() {
 }
 
 function refresh() {
-  console.log("saldo es " + debitChips);
+  // console.log("saldo es " + debitChips);
   if (dealSum > 21) {
     document.querySelector("#dealbust").remove();
     removeImg();
     doubleChips = bet * 2 + debitChips;
+    console.log("deal busted ", dealSum, " saldo :", debitChips);
     document.querySelector("#chipCountResult").innerHTML = "$" + doubleChips;
     debitChips = doubleChips;
     document.querySelector("#dealbutton").disabled = false;
@@ -378,7 +406,7 @@ function refresh() {
   } else if (dealSum === plySum) {
     document.querySelector("#drawID").remove();
     removeImg();
-    debitChips = Number(bet) + Number(debitChips);
+    debitChips = parseInt(bet) + parseInt(debitChips);
     console.log(`debit chips ${debitChips} , bet ${bet} `);
     document.querySelector("#chipCountResult").innerHTML = "$" + debitChips;
     debitChips = doubleChips;
@@ -386,7 +414,7 @@ function refresh() {
   }
   if (debitChips === 0) {
     document.querySelector("#noChipMsg").innerHTML =
-      "<== LO HAS JUGADO TODO || RECARGA TU SALDO ||";
+      '<button class="btn btn-primary">RECARGAR</button>';
     document.querySelector("#dealbutton").disabled = true;
   }
   bet = 0;

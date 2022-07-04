@@ -125,9 +125,10 @@ body {
 
 #bust {
   position: absolute;
-  top: 55vh;
+  bottom: 80%;
   left: 33%;
   text-align: center;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
 
 #plybust,
@@ -136,11 +137,12 @@ body {
 #plywin,
 #drawID {
   color: rgb(11, 124, 11);
-  border: 0.5vh rgba(255, 0, 0, 0.89) solid;
+  padding: 10px;
   border-radius: 10px;
   font-size: 8vh;
   font-style: bold;
   text-align: center;
+
   background: goldenrod;
 }
 
