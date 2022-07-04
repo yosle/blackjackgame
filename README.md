@@ -8,7 +8,7 @@ This project was completely was created with educational purpuses. In practice I
 -Simple logic
 # SUPPORT AND FEEDBACKS
 
-* [LinkedIN](https://www.linkedin.com/in/yosle/ "Linkedin") - Yosleivy B. (YosleDev)  
+* [LinkedIN](https://www.linkedin.com/in/yosledev/ "Linkedin") - Yosleivy B. (YosleDev)  
 * [Telegram](https://t.me/yosledev") - _YosleDev_  
 
 * yosle007s@gmail.com
